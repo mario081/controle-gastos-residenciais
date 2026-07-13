@@ -1,0 +1,23 @@
+## ===== .NET / C# =====
+backend/bin/
+backend/obj/
+*.user
+
+## Banco de dados SQLite (dados locais, não devem ir pro repositório)
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+
+## ===== Node / React =====
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+## ===== Editor =====
+.vs/
+.vscode/
+*.suo
+
+## ===== Sistema Operacional =====
+.DS_Store
+Thumbs.db
