@@ -4,7 +4,6 @@ using Expense.Api.Data;
 using Expense.Api.Models;
 using Expense.Api.Dtos;
 
-
 // Controlador de transações
 namespace Expense.Api.Controllers;
 
