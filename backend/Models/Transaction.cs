@@ -1,4 +1,4 @@
-namespace expense.api.Models {
+namespace Expense.Api.Models {
 
     // Enum que vai ter os tipos de transação.
     public enum TransactionType{

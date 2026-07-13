@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ControleGastos.Api.Migrations
+namespace Expense.Api.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

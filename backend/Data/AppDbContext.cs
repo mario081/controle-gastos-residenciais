@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using expense.api.Models;
+using Expense.Api.Models;
 
-namespace expense.api.data {
+namespace Expense.Api.Data {
 
     // Classe que vai fazer a ponte entre o C# e o banco de dados.
     public class AppDbContext : DbContext {

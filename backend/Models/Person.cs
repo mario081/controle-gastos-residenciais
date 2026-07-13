@@ -1,4 +1,4 @@
-namespace expense.api.Models {
+namespace Expense.Api.Models {
 
     // Classe que vai ter as informações da pessoa.
     public class Person {

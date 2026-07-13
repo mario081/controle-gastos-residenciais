@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace expense.api.Dtos{
+namespace Expense.Api.Dtos{
 
     public class CreatePersonDto{
         // Se o campo vier vazio, o erro será exibido

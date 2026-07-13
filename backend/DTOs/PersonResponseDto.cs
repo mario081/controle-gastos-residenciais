@@ -1,4 +1,4 @@
-namespace expense.api.Dtos{
+namespace Expense.Api.Dtos{
 
     // DTO de resposta
     public class PersonResponseDto{

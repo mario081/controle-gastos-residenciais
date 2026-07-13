@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using expense.api.data;
+using Expense.Api.Data;
 
 #nullable disable
 
-namespace ControleGastos.Api.Migrations
+namespace Expense.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260713030912_InitialCreate")]
@@ -19,7 +19,7 @@ namespace ControleGastos.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.9");
 
-            modelBuilder.Entity("expense.api.Models.Person", b =>
+            modelBuilder.Entity("Expense.Api.Models.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace ControleGastos.Api.Migrations
                     b.ToTable("People");
                 });
 
-            modelBuilder.Entity("expense.api.Models.Transaction", b =>
+            modelBuilder.Entity("Expense.Api.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,9 +63,9 @@ namespace ControleGastos.Api.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("expense.api.Models.Transaction", b =>
+            modelBuilder.Entity("Expense.Api.Models.Transaction", b =>
                 {
-                    b.HasOne("expense.api.Models.Person", "Person")
+                    b.HasOne("Expense.Api.Models.Person", "Person")
                         .WithMany("Transactions")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -74,7 +74,7 @@ namespace ControleGastos.Api.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("expense.api.Models.Person", b =>
+            modelBuilder.Entity("Expense.Api.Models.Person", b =>
                 {
                     b.Navigation("Transactions");
                 });

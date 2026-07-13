@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using expense.api.data;
+using Expense.Api.Data;
 
 // Criando o builder da aplicação.
 var builder = WebApplication.CreateBuilder(args);
