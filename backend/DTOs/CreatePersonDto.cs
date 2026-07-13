@@ -1,16 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Expense.Api.Dtos{
-
-    public class CreatePersonDto{
-        // Se o campo vier vazio, o erro será exibido
+namespace Expense.Api.Dtos
+{
+    // Entrada do POST de pessoa.
+    public class CreatePersonDto
+    {
         [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set;} = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
-        // Se o campo vier vazio, o erro será exibido
-        [Required(ErrorMessage = "Age is required")]
-        // Se o campo vier fora do range, o erro será exibido
-        [Range(1, 100, ErrorMessage = "Age must be between one and hundred")]
+        // Range cobre o caso de Age omitido no JSON (vira 0 e falha a validação).
+        [Range(1, 120, ErrorMessage = "Age must be between 1 and 120")]
         public int Age { get; set; }
     }
 }

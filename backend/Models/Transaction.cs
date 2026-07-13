@@ -1,30 +1,20 @@
-namespace Expense.Api.Models {
-
-    // Enum que vai ter os tipos de transação.
-    public enum TransactionType{
+namespace Expense.Api.Models
+{
+    public enum TransactionType
+    {
         Income,
         Expense
     }
 
-    // Classe que vai ter as informações da transação.
-    public class Transaction {
+    // Gasto ou receita ligado a uma pessoa.
+    public class Transaction
+    {
+        public int Id { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public decimal Amount { get; set; }
+        public TransactionType Type { get; set; }
 
-        // Identificador único.
-        public int Id { get; set;}
-
-        // Descrição da transação.
-        public string Description { get; set;} = string.Empty;
-
-        // Valor da transação.
-        public decimal Amount { get; set;}
-
-        // Tipo da transação.
-        public TransactionType Type { get; set;}
-
-        // Identificador da pessoa.
-        public int PersonId { get; set;}
-
-        // Pessoa que realizou a transação.
-        public Person? Person { get; set;}
+        public int PersonId { get; set; }
+        public Person? Person { get; set; }
     }
 }

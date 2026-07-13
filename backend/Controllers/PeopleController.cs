@@ -4,74 +4,80 @@ using Expense.Api.Data;
 using Expense.Api.Models;
 using Expense.Api.Dtos;
 
-namespace Expense.Api.Controllers{
-
-    // Habilita a API a ser acessada por outras aplicações
+namespace Expense.Api.Controllers
+{
+    // CRUD de pessoas: criar, buscar, listar e deletar.
     [ApiController]
-
-    // Rota base para acessar o controlador
     [Route("api/[controller]")]
-    public class PeopleController : ControllerBase{
+    public class PeopleController : ControllerBase
+    {
         private readonly AppDbContext _context;
 
-        // Injeção de dependência do contexto do banco de dados
-        public PeopleController(AppDbContext context){
+        public PeopleController(AppDbContext context)
+        {
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<PersonResponseDto>>> GetAll()
+        {
+            var people = await _context.People
+                .Select(p => new PersonResponseDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Age = p.Age
+                })
+                .ToListAsync();
 
-        // Rota para da o Get por ID
+            return Ok(people);
+        }
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<PersonResponseDto>> GetById([FromRoute] int id){
+        public async Task<ActionResult<PersonResponseDto>> GetById(int id)
+        {
             var person = await _context.People.FindAsync(id);
-
-            // Se a pessoa não for encontrada, retorna um erro 404
-            if (person == null){
+            if (person is null)
                 return NotFound();
-            }
 
-            // Se a pessoa for encontrada, retorna a pessoa
-            var response = new PersonResponseDto{
+            return Ok(new PersonResponseDto
+            {
                 Id = person.Id,
                 Name = person.Name,
                 Age = person.Age
-            };
-
-            return Ok(response);
+            });
         }
 
-        // Rota para criar um nova pessoa
         [HttpPost]
-        public async Task<ActionResult<PersonResponseDto>> Create(CreatePersonDto createPersonDto){
-            var person = new Person{
-                Name = createPersonDto.Name,
-                Age = createPersonDto.Age
+        public async Task<ActionResult<PersonResponseDto>> Create(CreatePersonDto dto)
+        {
+            var person = new Person
+            {
+                Name = dto.Name,
+                Age = dto.Age
             };
 
             _context.People.Add(person);
-
             await _context.SaveChangesAsync();
 
-            var response = new PersonResponseDto{
+            var response = new PersonResponseDto
+            {
                 Id = person.Id,
                 Name = person.Name,
                 Age = person.Age
             };
 
-            return CreatedAtAction(nameof(GetById), new {
-                id = person.Id
-            }, response);
+            return CreatedAtAction(nameof(GetById), new { id = person.Id }, response);
         }
 
-        // Rota para deletar uma pessoa
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete([FromRoute] int id){
+        public async Task<ActionResult> Delete(int id)
+        {
             var person = await _context.People.FindAsync(id);
-
-            if (person == null){
+            if (person is null)
                 return NotFound();
-            }
 
+            // Transações da pessoa são removidas automaticamente (Cascade no AppDbContext).
             _context.People.Remove(person);
             await _context.SaveChangesAsync();
 
