@@ -4,67 +4,93 @@ using Expense.Api.Data;
 using Expense.Api.Models;
 using Expense.Api.Dtos;
 
-// Controlador de transações
-namespace Expense.Api.Controllers;
+namespace Expense.Api.Controllers
+{
+    // Criar e listar transações. Menor de 18 só pode cadastrar despesa.
+    [ApiController]
+    [Route("api/[controller]")]
+    public class TransactionController : ControllerBase
+    {
+        private readonly AppDbContext _context;
 
-[ApiController]
-[Route("api/[controller]")]
-public class TransactionController : ControllerBase{
-    private readonly AppDbContext _context;
-
-    public TransactionController(AppDbContext context){
-        _contetxt = context;
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<TransactionResponseDto>>> GetAll(){
-        var Transactions = await _contetxt.Transactions
-        .Include(t => t.Person)
-        .select(t => new TransactionController{
-            Id = t.Id,
-            Description = t.Description,
-            Amount = t.Amount,
-            Type = t.Type,
-            PersonId = t.PersonId,
-            PersonName = t.Person.Name
-        })
-
-        .toListAsync();
-
-        return Ok(Transactions);
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<TransactionResponseDto>> Create(CreateTransactionDto dto){
-        var person = await _contetxt.People.FindAsync(dto.PersonId);
-
-        if( person == null){
-            return BadRequest(new { errors = ["Person not found"] });
+        public TransactionController(AppDbContext context)
+        {
+            _context = context;
         }
 
-        if (person.Age < 18 && dto.Type == TransactionType.Income){
-            return BadRequest(new { errors = ["Income is not allowed for minors"] });
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TransactionResponseDto>>> GetAll()
+        {
+            var transactions = await _context.Transactions
+                .Include(t => t.Person)
+                .Select(t => new TransactionResponseDto
+                {
+                    Id = t.Id,
+                    Description = t.Description,
+                    Amount = t.Amount,
+                    Type = t.Type,
+                    PersonId = t.PersonId,
+                    PersonName = t.Person != null ? t.Person.Name : string.Empty
+                })
+                .ToListAsync();
+
+            return Ok(transactions);
         }
 
-        var transaction = new Transaction{
-            Description = dto.Description,
-            Amount = dto.Amount,
-            Type = dto.Type,
-            PersonId = dto.PersonId
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TransactionResponseDto>> GetById(int id)
+        {
+            var transaction = await _context.Transactions
+                .Include(t => t.Person)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (transaction is null)
+                return NotFound();
+
+            return Ok(new TransactionResponseDto
+            {
+                Id = transaction.Id,
+                Description = transaction.Description,
+                Amount = transaction.Amount,
+                Type = transaction.Type,
+                PersonId = transaction.PersonId,
+                PersonName = transaction.Person?.Name ?? string.Empty
+            });
         }
 
-        _contetxt.Transactions.Add(transaction);
-        await _contetxt.SaveChangesAsync();
+        [HttpPost]
+        public async Task<ActionResult<TransactionResponseDto>> Create(CreateTransactionDto dto)
+        {
+            var person = await _context.People.FindAsync(dto.PersonId);
+            if (person is null)
+                return BadRequest(new { errors = new[] { "Person not found" } });
 
-        var response = new TransactionResponseDto{
-            Id = transaction.Id,
-            Description = transaction.Description,
-            Amount = transaction.Amount,
-            Type = transaction.Type,
-            PersonId = transaction.PersonId,
-            PersonName = person.Name
+            // Requisito: menor de idade só pode cadastrar despesa.
+            if (person.Age < 18 && dto.Type == TransactionType.Income)
+                return BadRequest(new { errors = new[] { "Income is not allowed for minors" } });
+
+            var transaction = new Transaction
+            {
+                Description = dto.Description,
+                Amount = dto.Amount,
+                Type = dto.Type,
+                PersonId = dto.PersonId
+            };
+
+            _context.Transactions.Add(transaction);
+            await _context.SaveChangesAsync();
+
+            var response = new TransactionResponseDto
+            {
+                Id = transaction.Id,
+                Description = transaction.Description,
+                Amount = transaction.Amount,
+                Type = transaction.Type,
+                PersonId = transaction.PersonId,
+                PersonName = person.Name
+            };
+
+            return CreatedAtAction(nameof(GetById), new { id = transaction.Id }, response);
         }
-
-        return CreatedAtAction(nameof(GetById), new { id = transaction.Id}, response);
     }
 }
