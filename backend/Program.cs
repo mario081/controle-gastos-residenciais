@@ -11,6 +11,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=controlegastos.db"));
 
+builder.Services.AddCors(options =>{
+    options.AddPolicy("AllowAnyFrontend", policy => {
+        policy.WithOrigins("http://localhost:5173")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -20,5 +28,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAnyFrontend");
 app.MapControllers();
 app.Run();
