@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ExpenseTracker.DTOs;
+namespace ExpenseTracker.Dtos;
 
 // DTO para criar uma transação
 

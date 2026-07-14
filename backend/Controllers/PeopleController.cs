@@ -37,7 +37,7 @@ namespace Expense.Api.Controllers
         public async Task<ActionResult<PersonResponseDto>> GetById(int id)
         {
             var person = await _context.People.FindAsync(id);
-            if (person is null)
+            if (person == null)
                 return NotFound();
 
             return Ok(new PersonResponseDto
