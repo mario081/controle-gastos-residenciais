@@ -1,12 +1,12 @@
 import type { Person } from "../types/Person";
 
 interface PersonListProps {
-    people: Person[];
+    persons: Person[];
     onDeletePerson: (id: number) => Promise<void>;
 }
 
-export function PersonList({ people, onDeletePerson}: PersonListProps){
-    if(people.length === 0){
+export function PersonList({ persons, onDeletePerson}: PersonListProps){
+    if(persons.length === 0){
         return <p>Nenhuma pessoa cadastrada</p>
     }
     return (
@@ -21,12 +21,12 @@ export function PersonList({ people, onDeletePerson}: PersonListProps){
                     </tr>
                 </thead>
                 <tbody>
-                    {people.map((people) => (
-                        <tr key={people.id}>
-                            <td>{people.name}</td>
-                            <td>{people.age}</td>
+                    {persons.map((person) => (
+                        <tr key={person.id}>
+                            <td>{person.name}</td>
+                            <td>{person.age}</td>
                             <td>
-                                <button onClick={() => onDeletePerson(people.id)}>Deletar</button>
+                                <button onClick={() => onDeletePerson(person.id)}>Deletar</button>
                             </td>
                         </tr>
                     ))}

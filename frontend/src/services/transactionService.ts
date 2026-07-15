@@ -2,15 +2,15 @@ import { URL_BASE_API } from "./api";
 import type { Transaction, CreateTransactionDto } from "../types/Transaction";
 
 export async function getTransactions(): Promise<Transaction[]> {
-    const response = await fetch(`${URL_BASE_API}/Transactions`);
+    const response = await fetch(`${URL_BASE_API}/Transaction`);
     if(!response.ok){
         throw new Error("Failed to fetch transactions");
     }
     return response.json();
 }
 
-export async function Transaction(dto: CreateTransactionDto): Promise<Transaction> {
-    const response = await fetch(`${URL_BASE_API}/Transactions`, {
+export async function createTransaction(dto: CreateTransactionDto): Promise<Transaction> {
+    const response = await fetch(`${URL_BASE_API}/Transaction`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json", 

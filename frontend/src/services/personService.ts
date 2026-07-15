@@ -29,8 +29,8 @@ export async function createPerson(dto: CreatePersonDto): Promise<Person> {
     return response.json();
 };
 
-export async function getPersonSummary(id: number): Promise<void> {
-    const response = await fetch(`${URL_BASE_API}/Paople/${id}`, {
+export async function deletePerson(id: number): Promise<void> {
+    const response = await fetch(`${URL_BASE_API}/People/${id}`, {
         method: "DELETE",
     });
 

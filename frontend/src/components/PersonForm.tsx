@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CreatePersonDto } from "../types/Person";
+import type { CreatePersonDto } from "../types/Person";
 
 
 interface PersonFormProps {
