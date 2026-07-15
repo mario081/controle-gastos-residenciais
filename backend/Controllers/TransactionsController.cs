@@ -9,11 +9,11 @@ namespace Expense.Api.Controllers
     // Criar e listar transações. Menor de 18 só pode cadastrar despesa.
     [ApiController]
     [Route("api/[controller]")]
-    public class TransactionController : ControllerBase
+    public class TransactionsController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public TransactionController(AppDbContext context)
+        public TransactionsController(AppDbContext context)
         {
             _context = context;
         }
