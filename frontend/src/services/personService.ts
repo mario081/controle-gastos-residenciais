@@ -1,11 +1,9 @@
 import { URL_BASE_API} from "./api";
 import type { Person, CreatePersonDto } from "../types/Person";
-import { CreateTransactionDto } from "../types/Transaction";
-import { PersonSummary } from "../types/Summary";
 
 export async function getPeople(): Promise<Person[]> {
 
-    const response = await fetch(`${URL_BASE_API}/person`);
+    const response = await fetch(`${URL_BASE_API}/People`);
 
     if(!response.ok){
         throw new Error("Failed to fetch people");
@@ -14,9 +12,9 @@ export async function getPeople(): Promise<Person[]> {
     return response.json();
 }
 
-export async function createPerson(dto: CreateTransactionDto): Promise<Person> {
-    const response = await fetch(`${URL_BASE_API}`, {
-        method: "Post",
+export async function createPerson(dto: CreatePersonDto): Promise<Person> {
+    const response = await fetch(`${URL_BASE_API}/People`, {
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
