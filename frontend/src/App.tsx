@@ -85,7 +85,7 @@ function App() {
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "1rem" }}>
       <h1>Controle de Gastos Residenciais</h1>
-
+      
       <section>
         <PersonForm onPersonCreated={handlePersonCreated} />
         <PersonList persons={people} onDeletePerson={handleDeletePerson} />

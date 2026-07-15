@@ -6,7 +6,7 @@ using Expense.Api.Dtos;
 
 namespace Expense.Api.Controllers
 {
-    // Criar e listar transações. Menor de 18 só pode cadastrar despesa.
+    // CRUD de transações: criar, buscar, listar e deletar.
     [ApiController]
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase
