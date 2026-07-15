@@ -19,5 +19,6 @@ frontend/.env
 *.suo
 
 ## ===== Sistema Operacional =====
+
 .DS_Store
 Thumbs.db
